@@ -38,7 +38,13 @@
           </div>
     </div>
   </div>
-  <h2>Results</h2>
+  <div class="mt-1">
+    <h4 class="d-inline-block me-2">Presets</h4>
+    <button type="button" class="btn btn-light" v-on:click="setPreset(0.3, .95)">MATTS Specific</button>
+    <button type="button" class="btn btn-light" v-on:click="setPreset(0.6, 0.8)">MATTS Balanced</button>
+    <button type="button" class="btn btn-light" v-on:click="setPreset(0.8, 0.7)">MATTS Sensitive</button>
+  </div>
+  <h2 class="mt-3">Results</h2>
   <div id="results">
     <div class="row">
       <div class="col">
@@ -106,7 +112,11 @@ export default {
     }
   },
   methods: {
-    getPercentageDisplay: val => (val*100.0).toFixed(1) + "%"
+    getPercentageDisplay: val => (val*100.0).toFixed(1) + "%",
+    setPreset(sens, spec) {
+      this.sensitivity = sens;
+      this.specificity = spec;
+    }
   },
   computed: {
     populationN: () => populationN,
