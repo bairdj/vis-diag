@@ -58,8 +58,15 @@
         </div>
       </div>
       <div class="col-4">
-        <ResultCard v-bind:n="falseNegatives" label="Incorrectly do not have MTC trauma team activation" class="h-100"
-                    v-bind:prop="falseNegatives / populationN" v-bind:showBar="true"/>
+        <ResultCard v-bind:n="falseNegatives"
+                    label="Incorrectly do not have MTC trauma team activation"
+                    class="h-100"
+                    v-bind:prop="falseNegatives / populationN"
+                    v-bind:showBar="true"
+                    :tu-catchment="tuCatchment"
+                    tu-label="patients injured in TU catchment and taken to TU without pre-alert"
+                    mtc-label="patients injured in MTC catchment and taken to MTC without pre-alert"
+        />
       </div>
       <div class="col-4">
         <ResultCard v-bind:n="trueNegatives"

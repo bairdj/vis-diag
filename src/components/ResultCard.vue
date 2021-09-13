@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <div v-if="n !== undefined">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center border-bottom">
           <span class="me-2 fs-2">{{ Math.round(n) }}</span>
           <span class="fs-6 lh-1">{{ label }}</span>
         </div>
