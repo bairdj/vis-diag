@@ -40,11 +40,17 @@
     </div>
     <div class="mt-1">
       <h4 class="d-inline-block me-2">Preset</h4>
-      <input min="0" max="1" step="0.01" class="form-range" type="range">
+      <input min="0"
+             :max="rocFrontier.length - 1"
+             step="1"
+             class="form-range"
+             type="range"
+             v-on:change="updatePreset"
+             v-model="selectedPreset">
       <div class="d-flex justify-content-between">
-        <span>More sensitive</span>
-        <span>Balanced</span>
         <span>More specific</span>
+        <span>Balanced</span>
+        <span>More sensitive</span>
       </div>
     </div>
     <h2 class="mt-3">Results</h2>
@@ -57,14 +63,28 @@
 import ResultsTable from "./components/ResultsTable";
 
 const populationN = 1e3;
+const rocFrontier = [
+    [0.220954357, 0.954703833],
+    [0.268115942, 0.950408401],
+    [0.374093264, 0.942251031],
+    [0.44524795, 0.93812025],
+    [0.495876289, 0.884862653],
+    [0.498504487, 0.467105897],
+    [0.613729508, 0.839308599],
+    [0.726347915, 0.74229203],
+    [0.751780264, 0.741710297],
+    [0.852442672, 0.267226891],
+    [0.893037336, 0.252]
+];
 
 export default {
   name: 'App',
   data() {
     return {
       eventRate: 0.02,
-      sensitivity: 0.6,
-      specificity: 0.6
+      sensitivity: null,
+      specificity: null,
+      selectedPreset: 5
     }
   },
   methods: {
@@ -72,13 +92,22 @@ export default {
     setPreset(sens, spec) {
       this.sensitivity = sens;
       this.specificity = spec;
+    },
+    updatePreset() {
+      const selected = this.rocFrontier[this.selectedPreset];
+      this.sensitivity = selected[0];
+      this.specificity = selected[1];
     }
   },
   computed: {
-    populationN: () => populationN
+    populationN: () => populationN,
+    rocFrontier: () => rocFrontier
   },
   components: {
     ResultsTable
+  },
+  mounted() {
+    this.updatePreset();
   }
 }
 </script>
