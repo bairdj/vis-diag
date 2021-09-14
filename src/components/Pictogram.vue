@@ -55,16 +55,16 @@ export default {
       const data = d3.range(Math.round(rows * columns * prop));
       const rowsRequired = Math.ceil(data.length / columns);
       d3Element.value.attr('height', rowsRequired * (iconHeight + padding));
-      const circles = d3Element.value.select("g").selectAll("rect")
+      const squares = d3Element.value.select("g").selectAll("rect")
           .data(data);
-      circles.enter()
+      squares.enter()
           .append("rect")
           .attr('x', d => ((d % columns) * (iconWidth + padding)))
           .attr('y', d => (Math.floor(d / columns) * (iconHeight + padding)))
           .attr('width', iconWidth)
           .attr('height', iconHeight)
           .attr('fill', 'black');
-      circles
+      squares
           .exit()
           .remove();
 
