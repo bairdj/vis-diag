@@ -1,7 +1,18 @@
 <template>
   <div class="container mt-2" id="toolContainer">
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h4>Network Configuration</h4>
+            <label>Patients per week</label>
+            <input class="form-control" v-model.number="populationN" type="number" min="0">
+            <label>Number of trauma units</label>
+            <input class="form-control" v-model.number="nTu" type="number" min="1" max="10">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
         <div class="card h-100">
           <div class="card-body">
             <h4>Pre-Test Probability/Prevalence</h4>
@@ -13,7 +24,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="card h-100">
           <div class="card-body">
             <h4>Sensitivity</h4>
@@ -25,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="card h-100">
           <div class="card-body">
             <h4>Specificity</h4>
@@ -54,7 +65,7 @@
       </div>
     </div>
     <h2 class="mt-3">Results</h2>
-    <ResultsTable :sensitivity="sensitivity" :specificity="specificity" :population-n="populationN" :event-rate="eventRate"/>
+    <ResultsTable :sensitivity="sensitivity" :specificity="specificity" :population-n="populationN" :event-rate="eventRate" :nTu="nTu"/>
   </div>
 
 </template>
@@ -62,7 +73,6 @@
 <script>
 import ResultsTable from "./components/ResultsTable";
 
-const populationN = 1e3;
 const rocFrontier = [
     [0.220954357, 0.954703833],
     [0.268115942, 0.950408401],
@@ -84,7 +94,9 @@ export default {
       eventRate: 0.02,
       sensitivity: null,
       specificity: null,
-      selectedPreset: 5
+      selectedPreset: 5,
+      populationN: 1000,
+      nTu: 5
     }
   },
   methods: {
@@ -100,7 +112,6 @@ export default {
     }
   },
   computed: {
-    populationN: () => populationN,
     rocFrontier: () => rocFrontier
   },
   components: {

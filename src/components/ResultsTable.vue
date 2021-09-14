@@ -123,6 +123,10 @@ export default {
     populationN: {
       type: Number,
       required: true
+    },
+    nTu:{
+      type: Number,
+      required: true
     }
   },
   components: {
@@ -163,8 +167,7 @@ export default {
     plusIcon: () => faPlus,
     minusIcon: () => faMinus,
     tuCatchment: () => 0.8,
-    nMtc: () => 1,
-    nTu: () => 5
+    nMtc: () => 1
   },
   methods: {
     getDisplayPercentage: p => (p*100).toFixed(1) + "%"
