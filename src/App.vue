@@ -8,7 +8,7 @@
             <div>
               The probability that a patient presenting with trauma actually has major trauma
             </div>
-            <input v-model="eventRate" type="range" min="0" max="1" step="0.005" class="form-range">
+            <input v-model.number="eventRate" type="range" min="0" max="1" step="0.005" class="form-range">
             <h5 class="slide-display">{{ getPercentageDisplay(eventRate) }}</h5>
           </div>
         </div>
@@ -20,7 +20,7 @@
             <div>
               The proportion of patients with major trauma who trigger the major trauma tool
             </div>
-            <input v-model="sensitivity" type="range" min="0" max="1" step="0.005" class="form-range">
+            <input v-model.number="sensitivity" type="range" min="0" max="1" step="0.005" class="form-range">
             <h5 class="slide-display">{{ getPercentageDisplay(sensitivity) }}</h5>
           </div>
         </div>
@@ -32,7 +32,7 @@
             <div>
               The proportion of patients without major trauma who do not trigger the major trauma tool
             </div>
-            <input v-model="specificity" type="range" min="0" max="1" step="0.005" class="form-range">
+            <input v-model.number="specificity" type="range" min="0" max="1" step="0.005" class="form-range">
             <h5 class="slide-display">{{ getPercentageDisplay(specificity) }}</h5>
           </div>
         </div>
