@@ -7,9 +7,12 @@
           <span class="fs-6 lh-1">{{ label }}</span>
         </div>
       </div>
-      <h3 v-if="prop && n === undefined">
-        {{ (prop * 100).toFixed(1) }}%
-      </h3>
+      <div v-if="prop && n === undefined">
+        <h3>
+          {{ (prop * 100).toFixed(1) }}%
+        </h3>
+        {{ label }}
+      </div>
       <div v-if="tuCatchment">
         <div>
           {{ nTu }} {{ tuLabel }}

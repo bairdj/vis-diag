@@ -43,7 +43,7 @@
         />
       </div>
       <div class="col-2">
-        <ResultCard v-bind:prop="ppv" class="h-100" label="Have major trauma when tool triggered"
+        <ResultCard v-bind:prop="ppv" class="h-100" label="Probability of having major trauma if tool triggered"
                     v-bind:showBar="false"/>
       </div>
     </div>
@@ -80,19 +80,21 @@
                     />
       </div>
       <div class="col-2">
-        <ResultCard v-bind:prop="npv" class="h-100" label="Do not have major trauma when tool not triggered"
+        <ResultCard v-bind:prop="falseOmissionRate" class="h-100" label="Probability of having major trauma if tool not triggered"
                     v-bind:showBar="false"/>
       </div>
     </div>
     <p class="mt-3">
+      A typical trauma network has {{ nMtc }} major trauma centre (MTC) and {{ nTu }} Trauma units (TU).
       There are approximately {{  populationN }} 999 calls for non-trivial injured patients each week in an average trauma network.
       Of these {{populationN }} cases approximately {{  getDisplayPercentage(eventRate) }} ({{ Math.round(eventRate * populationN) }} cases) would have major trauma.
       If we use a triage tool with {{ getDisplayPercentage(sensitivity) }} sensitivity and {{ getDisplayPercentage(specificity) }} specificity,
       assuming perfect compliance, this would result in {{ Math.round((truePositives + falsePositives)/7) }} MTC trauma team activations per day.
       Of these trauma calls, {{ Math.round(truePositives / 7)}} would have major trauma, while {{ Math.round(falsePositives / 7) }} would not have major trauma.
       The over-triage rate (1-PPV, or false detection rate) would therefore be {{  getDisplayPercentage(1 - ppv) }}.
-      Of the {{ positiveN }} patients with major trauma, {{  Math.round(truePositives) }} cases would correctly have MTC trauma team activations ({{ Math.round(truePositives / 7) }} per day),
-      while {{ Math.round(falseNegatives) }} cases would incorrectly not receive MTC trauma team activations ({{ Math.round(falseNegatives / 7) }} per day).
+      Of the {{ positiveN }} patients with major trauma, {{  Math.round(truePositives) }} cases would correctly have MTC trauma team activations ({{ (truePositives / 7).toFixed(1) }} per day),
+      while {{ Math.round(falseNegatives) }} cases would incorrectly not receive MTC trauma team activations ({{ (falseNegatives / 7).toFixed(1) }} per day).
+      Of the false negative major trauma cases {{ ((falseNegatives * tuCatchment)/nTu / 7).toFixed(1) }} would be taken per day to each TU without pre-alert.
       The under-triage rate (1-sensitivity) is therefore {{ getDisplayPercentage(1 - sensitivity) }}.
     </p>
   </div>
@@ -155,9 +157,14 @@ export default {
     npv() {
       return this.trueNegatives / (this.trueNegatives + this.falseNegatives);
     },
+    falseOmissionRate() {
+      return 1 - this.npv
+    },
     plusIcon: () => faPlus,
     minusIcon: () => faMinus,
-    tuCatchment: () => 0.8
+    tuCatchment: () => 0.8,
+    nMtc: () => 1,
+    nTu: () => 5
   },
   methods: {
     getDisplayPercentage: p => (p*100).toFixed(1) + "%"
