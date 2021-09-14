@@ -13,11 +13,11 @@
       <div v-if="tuCatchment">
         <div>
           {{ nTu }} {{ tuLabel }}
-          <Pictogram v-bind:columns="25" v-bind:rows="4" v-bind:height="100" v-bind:width="325" v-bind:prop="prop * tuCatchment"/>
+          <Pictogram v-bind:columns="40" v-bind:rows="25" v-bind:height="100" v-bind:width="300" v-bind:prop="prop * tuCatchment"/>
         </div>
         <div>
           {{ nMtc }} {{ mtcLabel }}
-          <Pictogram v-bind:columns="25" v-bind:rows="4" v-bind:height="100" v-bind:width="325" v-bind:prop="prop * (1 - tuCatchment)"/>
+          <Pictogram v-bind:columns="40" v-bind:rows="25" v-bind:height="100" v-bind:width="325" v-bind:prop="prop * (1 - tuCatchment)"/>
         </div>
       </div>
       <div v-else>
