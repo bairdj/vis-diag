@@ -6,7 +6,7 @@
 
 <script>
 import * as d3 from 'd3';
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch, toRefs } from "vue";
 import { faMale, faFemale } from "@fortawesome/free-solid-svg-icons";
 import {  icon } from "@fortawesome/fontawesome-svg-core";
 
@@ -38,6 +38,7 @@ export default {
   setup(props) {
     const pictogramElement = ref(null);
     const d3Element = ref(null);
+    const { prop } = toRefs(props);
     const initialisePictogram = () => {
       const base = d3.select(pictogramElement.value).append('svg').attr('width', props.width).attr('height', props.height);
       d3Element.value = base;
@@ -73,14 +74,12 @@ export default {
 
     }
     onMounted(initialisePictogram);
+    watch(prop, drawPictogram);
     return {
       pictogramElement,
       drawPictogram,
       initialisePictogram
     }
-  },
-  watch: {
-    prop: 'drawPictogram'
   }
 }
 </script>
