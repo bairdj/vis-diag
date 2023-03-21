@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 import Simulation from './components/Simulation'

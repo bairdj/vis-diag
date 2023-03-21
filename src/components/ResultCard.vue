@@ -1,6 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body">
+      <slot></slot>
       <div v-if="n !== undefined">
         <div class="d-flex align-items-center border-bottom">
           <span class="me-2 fs-2">{{ Math.round(n) }}</span>

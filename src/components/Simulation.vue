@@ -4,8 +4,14 @@
         <div class="card h-100">
           <div class="card-body">
             <h4>Network Configuration</h4>
-            <label>Number of non-trivial injuries presenting to ambulance services in the trauma network per week</label>
-            <input class="form-control" v-model.number="populationN" type="number" min="0">
+            <label>Number of non-trivial injuries presenting to ambulance services in the trauma network</label>
+            <div class="input-group mb-3">
+              <input class="form-control" v-model.number="populationN" type="number" min="0">
+              <select class="form-select" v-model="populationUnit">
+                <option value="day">per day</option>
+                <option selected value="week">per week</option>
+              </select>
+            </div>
             <label>Number of trauma units</label>
             <input class="form-control" v-model.number="nTu" type="number" min="1" max="10">
             <label>Proportion of patients injured within MTC catchment area</label>
@@ -26,48 +32,65 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h4>Sensitivity</h4>
-            <div>
-              The proportion of patients with major trauma who trigger the major trauma tool
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h4>Sensitivity</h4>
+                <div>
+                  The proportion of patients with major trauma who trigger the major trauma tool
+                </div>
+                <input v-model.number="sensitivity" type="range" min="0" max="1" step="0.005" class="form-range">
+                <h5 class="slide-display">{{ getPercentageDisplay(sensitivity) }}</h5>
+              </div>
             </div>
-            <input v-model.number="sensitivity" type="range" min="0" max="1" step="0.005" class="form-range">
-            <h5 class="slide-display">{{ getPercentageDisplay(sensitivity) }}</h5>
           </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h4>Specificity</h4>
-            <div>
-              The proportion of patients without major trauma who do not trigger the major trauma tool
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h4>Specificity</h4>
+                <div>
+                  The proportion of patients without major trauma who do not trigger the major trauma tool
+                </div>
+                <input v-model.number="specificity" type="range" min="0" max="1" step="0.005" class="form-range">
+                <h5 class="slide-display">{{ getPercentageDisplay(specificity) }}</h5>
+              </div>
             </div>
-            <input v-model.number="specificity" type="range" min="0" max="1" step="0.005" class="form-range">
-            <h5 class="slide-display">{{ getPercentageDisplay(specificity) }}</h5>
+          </div>
+          <div class="col-md-12">
+            <div class="card mt-3">
+              <div class="card-body">
+                <h4 class="d-inline-block me-2">Preset</h4>
+                <input min="0"
+                       :max="rocFrontier.length - 1"
+                       step="1"
+                       class="form-range"
+                       type="range"
+                       v-on:change="updatePreset"
+                       v-model="selectedPreset">
+                <div class="d-flex justify-content-between mb-3">
+                  <span>More specific</span>
+                  <span>Balanced</span>
+                  <span>More sensitive</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="mt-1">
-      <h4 class="d-inline-block me-2">Preset</h4>
-      <input min="0"
-             :max="rocFrontier.length - 1"
-             step="1"
-             class="form-range"
-             type="range"
-             v-on:change="updatePreset"
-             v-model="selectedPreset">
-      <div class="d-flex justify-content-between">
-        <span>More specific</span>
-        <span>Balanced</span>
-        <span>More sensitive</span>
-      </div>
-    </div>
-    <h2 class="mt-3">Results</h2>
-    <ResultsTable :sensitivity="sensitivity" :specificity="specificity" :population-n="populationN" :event-rate="eventRate" :nTu="nTu" :tuCatchment="1 - mtcCatchment"/>
+    <hr/>
+    <ResultsTable
+        class="mt-3"
+        :sensitivity="sensitivity"
+        :specificity="specificity"
+        :population-n="populationN"
+        :event-rate="eventRate"
+        :nTu="nTu"
+        :tuCatchment="1 - mtcCatchment"
+        :population-unit="populationUnit"
+    />
 </template>
 
 <script>
@@ -92,12 +115,13 @@ export default {
   data() {
     return {
       eventRate: 0.02,
-      sensitivity: null,
-      specificity: null,
-      selectedPreset: 5,
+      sensitivity: 0.5,
+      specificity: 0.5,
+      selectedPreset: null,
       populationN: 1000,
       mtcCatchment: 0.2,
-      nTu: 5
+      nTu: 5,
+      populationUnit: "week"
     }
   },
   methods: {
@@ -117,9 +141,6 @@ export default {
   },
   components: {
     ResultsTable
-  },
-  mounted() {
-    this.updatePreset();
   }
 }
 </script>
