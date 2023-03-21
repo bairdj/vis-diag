@@ -4,10 +4,13 @@
         <div class="card h-100">
           <div class="card-body">
             <h4>Network Configuration</h4>
-            <label>Patients per week</label>
+            <label>Number of non-trivial injuries presenting to ambulance services in the trauma network per week</label>
             <input class="form-control" v-model.number="populationN" type="number" min="0">
             <label>Number of trauma units</label>
             <input class="form-control" v-model.number="nTu" type="number" min="1" max="10">
+            <label>Proportion of patients injured within MTC catchment area</label>
+            <input v-model.number="mtcCatchment" type="range" min="0" max="1" step="0.005" class="form-range">
+            <h5 class="slide-display">{{ getPercentageDisplay(mtcCatchment) }}</h5>
           </div>
         </div>
       </div>
@@ -16,7 +19,7 @@
           <div class="card-body">
             <h4>Pre-Test Probability/Prevalence</h4>
             <div>
-              The probability that a patient presenting with trauma actually has major trauma
+              The probability that a patient presenting with a non-trivial injury has major trauma
             </div>
             <input v-model.number="eventRate" type="range" min="0" max="1" step="0.005" class="form-range">
             <h5 class="slide-display">{{ getPercentageDisplay(eventRate) }}</h5>
@@ -64,7 +67,7 @@
       </div>
     </div>
     <h2 class="mt-3">Results</h2>
-    <ResultsTable :sensitivity="sensitivity" :specificity="specificity" :population-n="populationN" :event-rate="eventRate" :nTu="nTu"/>
+    <ResultsTable :sensitivity="sensitivity" :specificity="specificity" :population-n="populationN" :event-rate="eventRate" :nTu="nTu" :tuCatchment="1 - mtcCatchment"/>
 </template>
 
 <script>
@@ -93,6 +96,7 @@ export default {
       specificity: null,
       selectedPreset: 5,
       populationN: 1000,
+      mtcCatchment: 0.2,
       nTu: 5
     }
   },

@@ -84,7 +84,7 @@
                     v-bind:showBar="false"/>
       </div>
     </div>
-    <p class="mt-3">
+    <p class="mt-4 p-2 border rounded">
       A typical trauma network has {{ nMtc }} major trauma centre (MTC) and {{ nTu }} Trauma units (TU).
       There are approximately {{  populationN }} 999 calls for non-trivial injured patients each week in an average trauma network.
       Of these {{populationN }} cases approximately {{  getDisplayPercentage(eventRate) }} ({{ Math.round(eventRate * populationN) }} cases) would have major trauma.
@@ -127,7 +127,11 @@ export default {
     nTu:{
       type: Number,
       required: true
-    }
+    },
+    tuCatchment: {
+      type: Number,
+      required: true
+    },
   },
   components: {
     FontAwesomeIcon,
@@ -166,7 +170,6 @@ export default {
     },
     plusIcon: () => faPlus,
     minusIcon: () => faMinus,
-    tuCatchment: () => 0.8,
     nMtc: () => 1
   },
   methods: {
